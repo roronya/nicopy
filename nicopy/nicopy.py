@@ -15,7 +15,7 @@ def login(mailaddress, password):
         raise FailedLoginError()
     return response.cookies
 
-def get_thumb_info(video_id, timeout=5):
+def get_video_info(video_id, timeout=5):
     response = requests.get("http://ext.nicovideo.jp/api/getthumbinfo/{0}".format(video_id), timeout=timeout)
     xml = response.content
     soup = BeautifulSoup(xml, 'xml')
