@@ -9,7 +9,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 
 setup(
     name='nicopy',
-    version = '0.0.7',
+    version = '0.0.8',
     description='niconico api for python',
     long_description=long_description,
     url = 'http://github.com/roronya/nicopy',
