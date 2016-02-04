@@ -57,8 +57,9 @@ def get_mylist_info(mylist_id, timeout=5):
         xml = response.content.decode('utf-8')
         xml = xml.replace('dc:creator', 'creator').encode('utf-8')
         soup = BeautifulSoup(xml, 'xml')
-        mylist_info = {'title': soup.find('title').get_text(),
-                       'creater': soup.find('creator').get_text(),
+        mylist_info = {'id': mylist_id,
+                       'title': soup.find('title').get_text(),
+                       'creator': soup.find('creator').get_text(),
                        'link': soup.find('link').get_text(),
                        'description': soup.find('description').get_text(),
                        'pubDate': soup.find('pubDate').get_text(),
