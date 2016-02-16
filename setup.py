@@ -3,16 +3,17 @@ from os import path
 import subprocess
 
 here = path.abspath(path.dirname(__file__))
-subprocess.call('pandoc {0}/README.md -s -o {0}/README.rst'.format(here), shell=True)
+subprocess.call('pandoc {0}/README.md -s -o {0}/README.rst'
+                .format(here), shell=True)
 with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
     name='nicopy',
-    version = '0.0.9',
+    version='0.0.10',
     description='niconico api for python',
     long_description=long_description,
-    url = 'http://github.com/roronya/nicopy',
+    url='http://github.com/roronya/nicopy',
     author='roronya',
     author_email='roronya628@gmail.com',
     license='MIT',
