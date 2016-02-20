@@ -23,8 +23,7 @@ def get_video_info(video_id, timeout=5):
     xml = response.content
     soup = BeautifulSoup(xml, 'xml')
     exists = lambda element: element.get_text() if element is not None else 'undefined'
-    thumb_info = {'video_id': soup.find('video_id').get_text(),
-                  'title': soup.find('title').get_text(),
+    thumb_info = {'video_id': soup.find('video_id'), 'title': soup.find('title').get_text(),
                   'description': soup.find('description').get_text(),
                   'thumbnail_url': soup.find('thumbnail_url').get_text(),
                   'first_retrieve': soup.find('first_retrieve').get_text(),
@@ -94,9 +93,9 @@ def get_flv_url(video_id, cookies, timeout=5):
     if video_id[:2] == 'nm':
         getflv_url = 'http://flapi.nicovideo.jp/api/getflv/{0}?as3=1'.format(
             video_id)
-        response = requests.get(getflv_url, cookies=cookies, timeout=timeout)
-        response_body = urllib.parse.unquote(response.text)
-        flv_url = re.search(r'url=([^&]+)', response_body).group(1)
+    response = requests.get(getflv_url, cookies=cookies, timeout=timeout)
+    response_body = urllib.parse.unquote(response.text)
+    flv_url = re.search(r'url=([^&]+)', response_body).group(1)
     return flv_url
 
 
