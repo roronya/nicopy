@@ -1,6 +1,8 @@
 import requests
 import urllib.parse
 import re
+import sys
+from math import ceil
 from bs4 import BeautifulSoup
 from .exception import *
 
@@ -47,10 +49,27 @@ def get_video_info(video_id, timeout=5):
     return thumb_info
 
 
-def get_flv(video_id, cookies, timeout=300):
+def get_flv(video_id, cookies, timeout=300, progress=True):
     flv_url = get_flv_url(video_id, cookies)
-    response = requests.get(flv_url, cookies=cookies, timeout=timeout)
-    content = response.content
+    response = requests.get(flv_url, cookies=cookies, stream=True)
+    total_length = response.headers.get('content-length')
+    if progress and total_length is not None:
+        downloaded = 0
+        content = b''
+        total_length = int(total_length)
+        for byte in response.iter_content(chunk_size=16392):
+            downloaded += len(byte)
+            content += (byte)
+            done = int(100 * downloaded / total_length)
+            sys.stdout.write('\r[{0}{1}] {2}%'
+                             .format('=' * int(ceil(done / 2)),
+                                     ' ' * int(50 - int(ceil(done / 2))),
+                                     done))
+            sys.stdout.flush()
+        print('')
+    else:
+        response = requests.get(flv_url, cookies=cookies, timeout=timeout)
+        content = response.content
     return content
 
 
