@@ -81,7 +81,8 @@ def get_mylist_info(mylist_id, timeout=5):
                                   'pubDate': item.find('pubDate').get_text(),
                                   'description': item.find('description').get_text(),
                                   'id': re.search(r'[^/]*$', item.find('link').get_text()).group(0),
-                                  } for item in soup.find_all('item')]
+                                  'position': i
+                                  } for i, item in enumerate(soup.find_all('item'))]
                        }
 
         return mylist_info
@@ -93,9 +94,9 @@ def get_flv_url(video_id, cookies, timeout=5):
     if video_id[:2] == 'nm':
         getflv_url = 'http://flapi.nicovideo.jp/api/getflv/{0}?as3=1'.format(
             video_id)
-    response = requests.get(getflv_url, cookies=cookies, timeout=timeout)
-    response_body = urllib.parse.unquote(response.text)
-    flv_url = re.search(r'url=([^&]+)', response_body).group(1)
+        response = requests.get(getflv_url, cookies=cookies, timeout=timeout)
+        response_body = urllib.parse.unquote(response.text)
+        flv_url = re.search(r'url=([^&]+)', response_body).group(1)
     return flv_url
 
 
