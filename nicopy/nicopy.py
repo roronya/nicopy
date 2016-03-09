@@ -99,7 +99,7 @@ def get_mylist_info(mylist_id, timeout=5):
                                   'pubDate': item.find('pubDate').get_text(),
                                   'description': item.find('description').get_text(),
                                   'id': re.search(r'[^/]*$', item.find('link').get_text()).group(0),
-                                  'position': i
+                                  'position': len(soup.find_all('item')) - i
                                   } for i, item in enumerate(soup.find_all('item'))]
                        }
 
