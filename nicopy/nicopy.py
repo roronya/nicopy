@@ -24,6 +24,8 @@ def get_video_info(video_id, timeout=5):
         "http://ext.nicovideo.jp/api/getthumbinfo/{0}".format(video_id), timeout=timeout)
     xml = response.content
     soup = BeautifulSoup(xml, 'xml')
+    if soup.find('nicovideo_thumb_response').get('status') == 'fail':
+        raise ResponseFailError
     exists = lambda element: element.get_text() if element is not None else 'undefined'
     thumb_info = {'video_id': soup.find('video_id'), 'title': soup.find('title').get_text(),
                   'description': soup.find('description').get_text(),
